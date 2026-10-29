@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enigma Machine M3 Simulator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Vintage Typewriter & Industrial Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&family=Special+Elite&display=swap"
+        rel="stylesheet">
+    <script src="tailwind_config.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="min-h-screen flex flex-col justify-between font-mono p-2 sm:p-4">
+
+    <!-- TOP HEADER / NAV BAR -->
+    <header
+        class="max-w-6xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 mb-3 border-b border-metal-700 pb-3">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg brass-badge flex items-center justify-center font-bold text-xl shadow-lg">
+                <i class="fa-solid fa-gear text-metal-900 animate-spin-slow"></i>
+            </div>
+            <div>
+                <h1 class="font-vintage text-xl sm:text-2xl font-bold tracking-wider text-brass">ENIGMA M3 SIMULATOR
+                </h1>
+                <p class="text-xs text-gray-400">Verba Volant, Scripta Manent • Kriegsmarine & Wehrmacht Cipher Engine
+                </p>
+            </div>
+        </div>
+
+        <!-- QUICK CONTROLS -->
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+            <button id="preset-navy"
+                class="px-3 py-1.5 bg-metal-700 hover:bg-metal-600 border border-metal-600 rounded text-brass hover:text-white transition flex items-center gap-1.5">
+                <i class="fa-solid fa-anchor"></i> Standard Navy Presets
+            </button>
+            <button id="preset-reset"
+                class="px-3 py-1.5 bg-red-950/60 hover:bg-red-900/80 border border-red-800/80 rounded text-red-300 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate-left"></i> Reset All
+            </button>
+            <button id="btn-sound-toggle"
+                class="px-3 py-1.5 bg-metal-700 hover:bg-metal-600 border border-metal-600 rounded text-gray-300 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-volume-high text-brass" id="sound-icon"></i> <span id="sound-label">Audio
+                    On</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN ENIGMA HARDWARE APP CONTAINER -->
+    <main class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5 flex-grow">
+
+        <!-- LEFT/TOP MAIN MACHINE PANEL (8 COLS) -->
+        <section class="lg:col-span-8 flex flex-col gap-5">
+
+            <!-- ENIGMA MACHINE CASE -->
+            <div class="enigma-casing rounded-xl p-4 sm:p-6 wood-border relative overflow-hidden flex flex-col gap-6">
+
+                <!-- TOP BRASS PLAQUE & ROTOR MECHANISM AREA -->
+                <div class="bg-metal-900/80 border border-metal-700 rounded-lg p-4 relative shadow-inner">
+                    <!-- Brass Plate Title -->
+                    <div class="flex items-center justify-between border-b border-metal-700 pb-2 mb-4">
+                        <span class="text-xs font-bold text-brass uppercase tracking-widest flex items-center gap-2">
+                            <i class="fa-solid fa-sliders"></i> Rotoren & Ringstellung (Chiffrierwalzen)
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs text-gray-400">Reflektor (Umkehrwalze):</label>
+                            <select id="reflector-select"
+                                class="bg-metal-800 text-brass text-xs font-bold border border-metal-600 rounded px-2 py-1 outline-none focus:border-brass">
+                                <option value="B">Reflector B (UKW-B)</option>
+                                <option value="C">Reflector C (UKW-C)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- THREE ROTOR HOUSINGS -->
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4">
+
+                        <!-- ROTOR LEFT (WALZE I) -->
+                        <div
+                            class="bg-metal-800/90 border border-metal-700 rounded-lg p-2 sm:p-3 flex flex-col items-center gap-2 relative">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Links (1)</span>
+                            <select id="rotor-left-type"
+                                class="w-full bg-metal-900 text-brass text-xs font-bold border border-metal-600 rounded px-1 py-1 text-center outline-none focus:border-brass">
+                                <option value="I" selected>Rotor I</option>
+                                <option value="II">Rotor II</option>
+                                <option value="III">Rotor III</option>
+                                <option value="IV">Rotor IV</option>
+                                <option value="V">Rotor V</option>
+                            </select>
+
+                            <!-- ROTOR DRUM DISPLAY -->
+                            <div
+                                class="w-16 h-20 sm:w-20 sm:h-24 rotor-window rounded border-2 border-metal-600 relative overflow-hidden flex flex-col items-center justify-center my-1">
+                                <div class="rotor-drum w-full h-full flex flex-col items-center justify-center text-xl sm:text-2xl font-bold text-metal-900 tracking-widest"
+                                    id="drum-left">
+                                    <span class="opacity-30 text-xs">Z</span>
+                                    <span id="pos-left-display" class="text-metal-900 text-2xl font-black">A</span>
+                                    <span class="opacity-30 text-xs">B</span>
+                                </div>
+                            </div>
+
+                            <!-- CONTROLS: STEP & RING -->
+                            <div class="flex items-center justify-between w-full gap-1">
+                                <button
+                                    class="btn-step w-7 h-7 bg-metal-700 hover:bg-brass hover:text-metal-900 rounded font-bold text-xs border border-metal-600 transition flex items-center justify-center"
+                                    data-rotor="left" data-dir="-1">-</button>
+                                <input type="text" id="pos-left-val" maxlength="1" value="A"
+                                    class="w-8 text-center bg-metal-900 text-brass font-bold text-sm border border-metal-600 rounded py-0.5 uppercase outline-none focus:border-brass">
+                                <button
+                                    class="btn-step w-7 h-7 bg-metal-700 hover:bg-brass hover:text-metal-900 rounded font-bold text-xs border border-metal-600 transition flex items-center justify-center"
+                                    data-rotor="left" data-dir="1">+</button>
+                            </div>
+
+                            <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
+                                <span>Ring:</span>
+                                <select id="ring-left"
+                                    class="bg-metal-900 text-gray-200 text-[11px] border border-metal-600 rounded px-1 py-0.5 outline-none">
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ROTOR MIDDLE (WALZE II) -->
+                        <div
+                            class="bg-metal-800/90 border border-metal-700 rounded-lg p-2 sm:p-3 flex flex-col items-center gap-2 relative">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Mitte (2)</span>
+                            <select id="rotor-middle-type"
+                                class="w-full bg-metal-900 text-brass text-xs font-bold border border-metal-600 rounded px-1 py-1 text-center outline-none focus:border-brass">
+                                <option value="I">Rotor I</option>
+                                <option value="II" selected>Rotor II</option>
+                                <option value="III">Rotor III</option>
+                                <option value="IV">Rotor IV</option>
+                                <option value="V">Rotor V</option>
+                            </select>
+
+                            <!-- ROTOR DRUM DISPLAY -->
+                            <div
+                                class="w-16 h-20 sm:w-20 sm:h-24 rotor-window rounded border-2 border-metal-600 relative overflow-hidden flex flex-col items-center justify-center my-1">
+                                <div class="rotor-drum w-full h-full flex flex-col items-center justify-center text-xl sm:text-2xl font-bold text-metal-900 tracking-widest"
+                                    id="drum-middle">
+                                    <span class="opacity-30 text-xs">Z</span>
+                                    <span id="pos-middle-display" class="text-metal-900 text-2xl font-black">A</span>
+                                    <span class="opacity-30 text-xs">B</span>
+                                </div>
+                            </div>
+
+                            <!-- CONTROLS: STEP & RING -->
+                            <div class="flex items-center justify-between w-full gap-1">
+                                <button
+                                    class="btn-step w-7 h-7 bg-metal-700 hover:bg-brass hover:text-metal-900 rounded font-bold text-xs border border-metal-600 transition flex items-center justify-center"
+                                    data-rotor="middle" data-dir="-1">-</button>
+                                <input type="text" id="pos-middle-val" maxlength="1" value="A"
+                                    class="w-8 text-center bg-metal-900 text-brass font-bold text-sm border border-metal-600 rounded py-0.5 uppercase outline-none focus:border-brass">
+                                <button
+                                    class="btn-step w-7 h-7 bg-metal-700 hover:bg-brass hover:text-metal-900 rounded font-bold text-xs border border-metal-600 transition flex items-center justify-center"
+                                    data-rotor="middle" data-dir="1">+</button>
+                            </div>
+
+                            <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
+                                <span>Ring:</span>
+                                <select id="ring-middle"
+                                    class="bg-metal-900 text-gray-200 text-[11px] border border-metal-600 rounded px-1 py-0.5 outline-none">
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ROTOR RIGHT (WALZE III) -->
+                        <div
+                            class="bg-metal-800/90 border border-metal-700 rounded-lg p-2 sm:p-3 flex flex-col items-center gap-2 relative">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Rechts (3)</span>
+                            <select id="rotor-right-type"
+                                class="w-full bg-metal-900 text-brass text-xs font-bold border border-metal-600 rounded px-1 py-1 text-center outline-none focus:border-brass">
+                                <option value="I">Rotor I</option>
+                                <option value="II">Rotor II</option>
+                                <option value="III" selected>Rotor III</option>
+                                <option value="IV">Rotor IV</option>
+                                <option value="V">Rotor V</option>
+                            </select>
+
+                            <!-- ROTOR DRUM DISPLAY -->
+                            <div
+                                class="w-16 h-20 sm:w-20 sm:h-24 rotor-window rounded border-2 border-metal-600 relative overflow-hidden flex flex-col items-center justify-center my-1">
+                                <div class="rotor-drum w-full h-full flex flex-col items-center justify-center text-xl sm:text-2xl font-bold text-metal-900 tracking-widest"
+                                    id="drum-right">
+                                    <span class="opacity-30 text-xs">Z</span>
+                                    <span id="pos-right-display" class="text-metal-900 text-2xl font-black">A</span>
+                                    <span class="opacity-30 text-xs">B</span>
+                                </div>
+                            </div>
+
+                            <!-- CONTROLS: STEP & RING -->
+                            <div class="flex items-center justify-between w-full gap-1">
+                                <button
+                                    class="btn-step w-7 h-7 bg-metal-700 hover:bg-brass hover:text-metal-900 rounded font-bold text-xs border border-metal-600 transition flex items-center justify-center"
+                                    data-rotor="right" data-dir="-1">-</button>
+                                <input type="text" id="pos-right-val" maxlength="1" value="A"
+                                    class="w-8 text-center bg-metal-900 text-brass font-bold text-sm border border-metal-600 rounded py-0.5 uppercase outline-none focus:border-brass">
+                                <button
+                                    class="btn-step w-7 h-7 bg-metal-700 hover:bg-brass hover:text-metal-900 rounded font-bold text-xs border border-metal-600 transition flex items-center justify-center"
+                                    data-rotor="right" data-dir="1">+</button>
+                            </div>
+
+                            <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
+                                <span>Ring:</span>
+                                <select id="ring-right"
+                                    class="bg-metal-900 text-gray-200 text-[11px] border border-metal-600 rounded px-1 py-0.5 outline-none">
+                                    <!-- Options populated by JS -->
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- LAMPBOARD (GLOWING LIGHTS DISPLAY) -->
+                <div
+                    class="bg-metal-900/90 border border-metal-700 rounded-lg p-3 sm:p-5 flex flex-col items-center shadow-inner">
+                    <span
+                        class="text-[10px] font-bold text-amberGlow/70 tracking-widest uppercase mb-3 self-start flex items-center gap-1.5">
+                        <i class="fa-regular fa-lightbulb"></i> Lampenfeld (Lampboard Output)
+                    </span>
+
+                    <!-- QWERTZ ENIGMA LAMP LAYOUT -->
+                    <div class="flex flex-col gap-2 w-full max-w-md">
+                        <!-- Row 1: Q W E R T Z U I O -->
+                        <div class="flex justify-center gap-1.5 sm:gap-2.5">
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-Q">Q</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-W">W</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-E">E</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-R">R</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-T">T</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-Z">Z</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-U">U</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-I">I</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-O">O</div>
+                        </div>
+                        <!-- Row 2: A S D F G H J K -->
+                        <div class="flex justify-center gap-1.5 sm:gap-2.5">
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-A">A</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-S">S</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-D">D</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-F">F</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-G">G</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-H">H</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-J">J</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-K">K</div>
+                        </div>
+                        <!-- Row 3: P P Y X C V B N M (Standard German WWII layout: P O Y... we use standard QWERTZ Enigma: P X C V B N M) -->
+                        <div class="flex justify-center gap-1.5 sm:gap-2.5">
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-P">P</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-Y">Y</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-X">X</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-C">C</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-V">V</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-B">B</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-N">N</div>
+                            <div class="lamp w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base"
+                                id="lamp-M">M</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHYSICAL VINTAGE KEYBOARD -->
+                <div class="bg-metal-900/90 border border-metal-700 rounded-lg p-3 sm:p-5 flex flex-col items-center">
+                    <span
+                        class="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-3 self-start flex items-center gap-1.5">
+                        <i class="fa-solid fa-keyboard"></i> Tastatur (Interactive Typewriter Keypad)
+                    </span>
+
+                    <div class="flex flex-col gap-2 w-full max-w-md">
+                        <!-- Key Row 1 -->
+                        <div class="flex justify-center gap-1.5 sm:gap-2">
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="Q">Q</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="W">W</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="E">E</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="R">R</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="T">T</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="Z">Z</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="U">U</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="I">I</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="O">O</button>
+                        </div>
+                        <!-- Key Row 2 -->
+                        <div class="flex justify-center gap-1.5 sm:gap-2">
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="A">A</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="S">S</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="D">D</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="F">F</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="G">G</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="H">H</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="J">J</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="K">K</button>
+                        </div>
+                        <!-- Key Row 3 -->
+                        <div class="flex justify-center gap-1.5 sm:gap-2">
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="P">P</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="Y">Y</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="X">X</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="C">C</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="V">V</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="B">B</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="N">N</button>
+                            <button
+                                class="key-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full font-vintage font-bold text-white text-sm sm:text-base"
+                                data-key="M">M</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL: TEXT INPUT/OUTPUT & PLUGBOARD (4 COLS) -->
+        <section class="lg:col-span-4 flex flex-col gap-5">
+
+            <!-- STECKERBRETT (PLUGBOARD) CONTROL CARD -->
+            <div class="bg-metal-800 border border-metal-700 rounded-xl p-4 flex flex-col gap-3 shadow-lg">
+                <div class="flex items-center justify-between border-b border-metal-700 pb-2">
+                    <span class="text-xs font-bold text-brass uppercase tracking-widest flex items-center gap-2">
+                        <i class="fa-solid fa-plug"></i> Steckerbrett (Plugboard)
+                    </span>
+                    <span class="text-[10px] text-gray-400" id="plug-count">0/10 Pasang</span>
+                </div>
+
+                <p class="text-[11px] text-gray-400 leading-tight">
+                    Hubungkan pasang huruf (max 10 pasang, dipisahkan spasi). Contoh: <span class="text-brass">AB CD EF
+                        GH</span>
+                </p>
+
+                <input type="text" id="plugboard-input" placeholder="AB CD EF GH..."
+                    class="w-full bg-metal-900 text-brass font-bold text-sm border border-metal-600 rounded p-2 tracking-widest uppercase outline-none focus:border-brass focus:ring-1 focus:ring-brass transition">
+
+                <div id="plugboard-error" class="hidden text-[11px] text-red-400 flex items-center gap-1">
+                    <i class="fa-solid fa-circle-exclamation"></i> <span id="plugboard-error-msg"></span>
+                </div>
+
+                <!-- Interactive Visual Cables Tag Cloud -->
+                <div id="plugboard-tags"
+                    class="flex flex-wrap gap-1.5 min-h-[30px] p-2 bg-metal-900/60 rounded border border-metal-700">
+                    <span class="text-[11px] text-gray-500 italic">Belum ada kabel terpasang</span>
+                </div>
+            </div>
+
+            <!-- REAL-TIME TEXT INPUT / OUTPUT AREA -->
+            <div class="bg-metal-800 border border-metal-700 rounded-xl p-4 flex flex-col gap-4 shadow-lg flex-grow">
+
+                <!-- INPUT TEXT AREA -->
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between">
+                        <label for="text-input"
+                            class="text-xs font-bold text-gray-300 uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-pen-to-square text-brass"></i> Teks Asli / Ciphertext
+                        </label>
+                        <button id="btn-clear-input"
+                            class="text-[11px] text-gray-400 hover:text-red-400 transition">Hapus Teks</button>
+                    </div>
+                    <textarea id="text-input" rows="4" placeholder="Ketik pesan di sini... (Proses secara real-time)"
+                        class="w-full bg-metal-900 text-emerald-400 font-mono text-sm border border-metal-600 rounded p-3 outline-none focus:border-brass focus:ring-1 focus:ring-brass resize-none"></textarea>
+                </div>
+
+                <!-- ACTION BUTTONS (SWAP / COPY) -->
+                <div class="flex items-center justify-between gap-2">
+                    <button id="btn-swap"
+                        class="flex-1 py-1.5 bg-metal-700 hover:bg-metal-600 border border-metal-600 rounded text-xs text-gray-300 font-bold transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-arrow-up-arrow-down"></i> Swap Input/Output
+                    </button>
+                    <button id="btn-copy"
+                        class="flex-1 py-1.5 bg-brass/20 hover:bg-brass/30 border border-brass/50 rounded text-xs text-brass font-bold transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-copy"></i> Salin Hasil
+                    </button>
+                </div>
+
+                <!-- OUTPUT TEXT AREA -->
+                <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center justify-between">
+                        <label for="text-output"
+                            class="text-xs font-bold text-brass uppercase flex items-center gap-1.5">
+                            <i class="fa-solid fa-lock text-brass"></i> Hasil Terenkripsi / Terdekripsi
+                        </label>
+                        <span id="output-char-count" class="text-[10px] text-gray-500">0 Karakter</span>
+                    </div>
+                    <div class="relative">
+                        <textarea id="text-output" rows="4" readonly
+                            placeholder="Hasil enkripsi akan muncul secara langsung..."
+                            class="w-full bg-metal-950 text-amberGlow font-mono text-sm font-bold border border-metal-700 rounded p-3 outline-none resize-none shadow-inner tracking-wider"></textarea>
+                    </div>
+                </div>
+
+                <!-- SIGNAL PATHWAY TRACER DISPLAY -->
+                <div
+                    class="mt-auto bg-metal-900/90 border border-metal-700 rounded p-2.5 text-[11px] flex flex-col gap-1">
+                    <div class="flex items-center justify-between text-gray-400 border-b border-metal-800 pb-1">
+                        <span class="font-bold text-brass flex items-center gap-1"><i class="fa-solid fa-route"></i>
+                            Sinyal Terakhir</span>
+                        <span id="signal-char-label" class="text-white font-bold">-</span>
+                    </div>
+                    <div id="signal-path-display"
+                        class="font-mono text-[10px] text-gray-400 overflow-x-auto whitespace-nowrap py-1">
+                        Ketik huruf untuk melihat alur sinyal kabel...
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER / INFO BANNER -->
+    <footer
+        class="max-w-6xl w-full mx-auto mt-4 pt-3 border-t border-metal-800 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p>© Enigma M3 Cryptographic Engine • Generated with Gemini AI</p>
+        <p class="flex items-center gap-3">
+            <span><i class="fa-solid fa-shield-halved text-brass"></i> Kriptografi Simetris Murni</span>
+            <span><i class="fa-solid fa-code text-gray-400"></i> Pure JavaScript</span>
+        </p>
+    </footer>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"
+        class="fixed bottom-5 right-5 bg-brass text-metal-950 font-bold px-4 py-2.5 rounded-lg shadow-2xl transition-all duration-300 toast-enter flex items-center gap-2 z-50">
+        <i class="fa-solid fa-check-circle text-lg"></i>
+        <span id="toast-msg">Pesan berhasil disalin!</span>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

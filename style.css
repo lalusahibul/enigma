@@ -1,0 +1,113 @@
+/* Custom Mechanical Casing & Vintage Textures */
+        body {
+            background: radial-gradient(circle at center, #1e222b 0%, #0d0e11 100%);
+            color: #d1d5db;
+            user-select: none;
+        }
+
+        .enigma-casing {
+            background: linear-gradient(145deg, #232730, #171920);
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.9);
+            border: 2px solid #2d323e;
+        }
+
+        .wood-border {
+            border: 8px solid #3d2612;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .brass-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 50%, #684c07 100%);
+            color: #111;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        /* Rotor Mechanical Windows & Drums */
+        .rotor-drum {
+            background: linear-gradient(to bottom, #0a0b0d 0%, #2a2e38 30%, #f3ebdb 48%, #ffffff 50%, #f3ebdb 52%, #2a2e38 70%, #0a0b0d 100%);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .rotor-window {
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Glowing Lamps */
+        .lamp {
+            background: radial-gradient(circle at 35% 35%, #2a241e 0%, #14110d 100%);
+            border: 2px solid #3a332a;
+            color: #665b4e;
+            transition: all 0.08s ease-in-out;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .lamp.lit {
+            background: radial-gradient(circle at 35% 35%, #fff2a8 0%, #ffb000 50%, #b86b00 100%);
+            color: #1a0f00;
+            border-color: #ffe066;
+            box-shadow:
+                0 0 20px #ffb000,
+                0 0 35px #ff8800,
+                inset 0 1px 3px rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Typewriter Keys */
+        .key-btn {
+            background: linear-gradient(145deg, #2c303b, #191c23);
+            border: 2px solid #484f61;
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            transition: all 0.05s ease;
+        }
+
+        .key-btn:active,
+        .key-btn.pressed {
+            transform: translateY(3px);
+            background: linear-gradient(145deg, #181a20, #222630);
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.8),
+                inset 0 2px 4px rgba(0, 0, 0, 0.6);
+            border-color: #c5a059;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121316;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3a3f4d;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c5a059;
+        }
+
+        /* Steckerbrett Socket Styling */
+        .stecker-socket {
+            background: radial-gradient(circle, #000 40%, #222 70%, #444 100%);
+            border: 1px solid #555;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        .toast-enter {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        .toast-show {
+            transform: translateY(0);
+            opacity: 1;
+        }
