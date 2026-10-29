@@ -66,12 +66,13 @@
                 <!-- TOP BRASS PLAQUE & ROTOR MECHANISM AREA -->
                 <div class="bg-metal-900/80 border border-metal-700 rounded-lg p-4 relative shadow-inner">
                     <!-- Brass Plate Title -->
-                    <div class="flex items-center justify-between border-b border-metal-700 pb-2 mb-4">
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-metal-700 pb-3 mb-4">
                         <span class="text-xs font-bold text-brass uppercase tracking-widest flex items-center gap-2">
                             <i class="fa-solid fa-sliders"></i> Rotoren & Ringstellung (Chiffrierwalzen)
                         </span>
-                        <div class="flex items-center gap-2">
-                            <label class="text-xs text-gray-400">Reflektor (Umkehrwalze):</label>
+                        <div class="flex items-center gap-2 self-start sm:self-auto">
+                            <label class="text-xs text-gray-400 whitespace-nowrap">Reflektor:</label>
                             <select id="reflector-select"
                                 class="bg-metal-800 text-brass text-xs font-bold border border-metal-600 rounded px-2 py-1 outline-none focus:border-brass">
                                 <option value="B">Reflector B (UKW-B)</option>
@@ -119,10 +120,10 @@
                                     data-rotor="left" data-dir="1">+</button>
                             </div>
 
-                            <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
-                                <span>Ring:</span>
+                            <div class="flex flex-col w-full gap-1 text-[10px] text-gray-400 mt-1">
+                                <span>Ringstellung:</span>
                                 <select id="ring-left"
-                                    class="bg-metal-900 text-gray-200 text-[11px] border border-metal-600 rounded px-1 py-0.5 outline-none">
+                                    class="bg-metal-900 text-brass font-bold text-xs border border-metal-600 rounded px-1 py-1 w-full outline-none focus:border-brass">
                                     <!-- Options populated by JS -->
                                 </select>
                             </div>
@@ -164,10 +165,10 @@
                                     data-rotor="middle" data-dir="1">+</button>
                             </div>
 
-                            <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
-                                <span>Ring:</span>
+                            <div class="flex flex-col w-full gap-1 text-[10px] text-gray-400 mt-1">
+                                <span>Ringstellung:</span>
                                 <select id="ring-middle"
-                                    class="bg-metal-900 text-gray-200 text-[11px] border border-metal-600 rounded px-1 py-0.5 outline-none">
+                                    class="bg-metal-900 text-brass font-bold text-xs border border-metal-600 rounded px-1 py-1 w-full outline-none focus:border-brass">
                                     <!-- Options populated by JS -->
                                 </select>
                             </div>
@@ -209,10 +210,10 @@
                                     data-rotor="right" data-dir="1">+</button>
                             </div>
 
-                            <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
-                                <span>Ring:</span>
+                            <div class="flex flex-col w-full gap-1 text-[10px] text-gray-400 mt-1">
+                                <span>Ringstellung:</span>
                                 <select id="ring-right"
-                                    class="bg-metal-900 text-gray-200 text-[11px] border border-metal-600 rounded px-1 py-0.5 outline-none">
+                                    class="bg-metal-900 text-brass font-bold text-xs border border-metal-600 rounded px-1 py-1 w-full outline-none focus:border-brass">
                                     <!-- Options populated by JS -->
                                 </select>
                             </div>
